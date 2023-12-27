@@ -22,6 +22,11 @@ data = data.dropna()
 
 # Get column names
 column_names = data.columns
+
+# Explanatory text
+st.sidebar.markdown('<h6 style="color: black;"> Author : Kamel SOUDANI </h6>', unsafe_allow_html=True)
+
+st.sidebar.markdown('<h4 style="color: black;"> This progam allows to select Output and Input Variables from the list. Note that if there is no selection, an error appears and disappears if output and inputs are selected</h4>', unsafe_allow_html=True)
 # Sidebar for user input selection
 st.sidebar.markdown('<h1 style="color: blue;">Select Output and Input Variables</h1>', unsafe_allow_html=True)
 # Select output variable
@@ -89,10 +94,10 @@ st.pyplot(fig)
 # Display feature importance chart
 st.subheader('Feature Importance Chart')
 feature_importance_model = pd.Series(model.feature_importances_, index=input_variables_model).sort_values(ascending=False)
-plt.figure(figsize=(10, 6))
+fig, ax=plt.subplots(figsize=(10, 6))
 sns.barplot(x=feature_importance_model, y=feature_importance_model.index, palette='viridis')
-plt.title('Random Forest Feature Importance')
-st.pyplot()
+ax.set_title('Random Forest Feature Importance')
+st.pyplot(fig)
 
 # Second page: Use the model for prediction
 st.title('Use the Model for Prediction')
@@ -111,10 +116,10 @@ st.write(f'The predicted {output_variable_model} value is: {prediction[0]:.5f}')
 # Display a bar chart for the predicted output
 st.subheader('Predicted Output Chart')
 prediction_data = pd.DataFrame({output_variable_model: [prediction[0]]})
-plt.figure(figsize=(8, 5))
+fig, ax=plt.subplots(figsize=(8, 5))
 sns.barplot(data=prediction_data, palette=['orange'])
-plt.title(f'Predicted {output_variable_model} Value')
-plt.ylabel('Value')
-st.pyplot()
+ax.set_title(f'Predicted {output_variable_model} Value')
+ax.set_ylabel('Value')
+st.pyplot(fig)
 
 
