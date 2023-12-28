@@ -11,8 +11,10 @@ import numpy as np
 # deprecated function warning is disabled
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# Load data
-file_path=r'D:\Streamlit_ML_Model\Data\Data_BarbeauFlux_NoNaN.csv'
+# Load data : use relative path to the data file 
+file_path='./Data/Data_BarbeauFlux_NoNaN.csv'
+
+
 data = pd.read_csv(file_path, header=0, sep=';', decimal='.', index_col=0)
 column_names = data.columns.tolist()
 
