@@ -6,13 +6,12 @@ import seaborn as sns
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-
 import numpy as np
 
+# deprecated function warning is disabled
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Load data
-
 file_path=r'D:\Streamlit_ML_Model\Data\Data_BarbeauFlux_NoNaN.csv'
 data = pd.read_csv(file_path, header=0, sep=';', decimal='.', index_col=0)
 column_names = data.columns.tolist()
@@ -23,23 +22,22 @@ data = data.dropna()
 # Get column names
 column_names = data.columns
 
-# Explanatory text
-st.sidebar.markdown('<h6 style="color: black;"> Author : Kamel SOUDANI </h6>', unsafe_allow_html=True)
+# Author text
+st.sidebar.markdown('<h5 style="color: black;"> Author : Kamel SOUDANI </h5>', unsafe_allow_html=True)
 
-st.sidebar.markdown('<h4 style="color: black;"> This progam allows to select Output and Input Variables from the list. Note that if there is no selection, an error appears and disappears if output and inputs are selected</h4>', unsafe_allow_html=True)
 # Sidebar for user input selection
-st.sidebar.markdown('<h1 style="color: blue;">Select Output and Input Variables</h1>', unsafe_allow_html=True)
+st.sidebar.markdown('<h1 style="color: blue;">Select One output and at least one input Variable</h1>', unsafe_allow_html=True)
 # Select output variable
-output_variable_model = st.sidebar.selectbox('Select Output Variable', column_names)
+output_variable_model = st.sidebar.selectbox('Select One output Variable', column_names)
 
-# Select input variables
-input_variables_model = st.sidebar.multiselect('Select Input Variables', column_names, default=['R_450', 'R_550', 'R_650', 'R_720', 'R_750', 'R_800'])
+# Select input variables to predict the target variable (output)
+input_variables_model = st.sidebar.multiselect('Select at least one input Variable', column_names, default=['R_450', 'R_550', 'R_650', 'R_720', 'R_750', 'R_800'])
 
 if not output_variable_model or not input_variables_model:
-    st.warning('Select Output and Input Variables to start.')
+    st.warning('Select One output and at least one input Variable to start.')
 
 # User option for setting the rate of test data
-test_data_rate = st.sidebar.slider('Select the rate of test data (%)', 0, 100, 20, 5)
+test_data_rate = st.sidebar.slider('Select the rate of test data (%)', 0, 100, 20, 1)
 
 # Define input features (X) and target variable (y) for model training
 X_model = data[input_variables_model]
@@ -51,9 +49,13 @@ X_train, X_test, y_train, y_test = train_test_split(X_model, y_model, test_size=
 # Train Random Forest model
 model = RandomForestRegressor()
 model.fit(X_train, y_train)
+
+
 # Streamlit application
-# First page: Model Training and Validation
-st.title('Machine Learning Model: Model Training and Validation')
+# Model Training and Validation
+
+st.title('Machine Learning Model: Training, Validation and Prediction using Random Forest Algorithm')
+st.markdown('<h4 style="color: black;"> This program allows to build a random forest model and to implement it to allow the user to predict an output target variable from given values of input variables. To build the model, the user select a combination of one "output" variable and at least one input variable from the list. </h4>', unsafe_allow_html=True)
 
 # Display information about the trained model
 st.header('Model Information')
@@ -99,11 +101,12 @@ sns.barplot(x=feature_importance_model, y=feature_importance_model.index, palett
 ax.set_title('Random Forest Feature Importance')
 st.pyplot(fig)
 
-# Second page: Use the model for prediction
+# Use the model for prediction
 st.title('Use the Model for Prediction')
+st.markdown('<h4 style="color: black;"> Use Sidebar menu to select the values of input variables to predict the target variable. </h4>', unsafe_allow_html=True)
 
 # User input for feature values
-st.sidebar.markdown('<h2 style="color: blue;">Choose the values of the following inputs to predict the output</h2>', unsafe_allow_html=True)
+st.sidebar.markdown('<h2 style="color: blue;"> Select the values of input variables to predict the target variable</h2>', unsafe_allow_html=True)
 user_input_prediction = {}
 for column in input_variables_model:
     user_input_prediction[column] = st.sidebar.slider(f'Select {column}', float(data[column].min()), float(data[column].max()), float(data[column].mean()))
