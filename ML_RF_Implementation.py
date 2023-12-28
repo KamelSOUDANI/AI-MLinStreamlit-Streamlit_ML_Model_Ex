@@ -7,12 +7,12 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import numpy as np
-import os
 
-# deprecated function warning is disabled
+
+# Deprecated function warning is disabled
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# Load data : use relative path to the data file
+# Load data : put the file in the same directory as the script and use relative path to the data file (Tested Using github repository)
 
 file_path = './Data_BarbeauFlux_noNaN.csv'
 
@@ -29,7 +29,7 @@ column_names = data.columns
 st.sidebar.markdown('<h5 style="color: black;"> Author : Kamel SOUDANI </h5>', unsafe_allow_html=True)
 
 # Sidebar for user input selection
-st.sidebar.markdown('<h1 style="color: blue;">Select One output and at least one input Variable</h1>', unsafe_allow_html=True)
+st.sidebar.markdown('<h1 style="color: blue;">Select one output and at least one input Variable</h1>', unsafe_allow_html=True)
 # Select output variable
 output_variable_model = st.sidebar.selectbox('Select One output Variable', column_names)
 
@@ -58,7 +58,7 @@ model.fit(X_train, y_train)
 # Model Training and Validation
 
 st.title('Machine Learning Model: Training, Validation and Prediction using Random Forest Algorithm')
-st.markdown('<h4 style="color: black;"> This program allows to build a random forest model and to implement it to allow the user to predict an output target variable from given values of input variables. To build the model, the user select a combination of one "output" variable and at least one input variable from the list. </h4>', unsafe_allow_html=True)
+st.markdown('<h4 style="color: black;"> This program allows to build a random forest model and to implement it to allow the user to predict an output target variable from given values of input variables. To build the model, the user selects a combination of one "output" variable and at least one input variable from the list. </h4>', unsafe_allow_html=True)
 
 # Display information about the trained model
 st.header('Model Information')
